@@ -1,0 +1,6 @@
+<% Object.keys(paths).forEach(function(path) { -%>
+<%- path %>
+<% Object.entries(paths[path]).forEach(function([key, value]) { -%>
+  <%- `${key}: ${value}` %>
+<% }); -%>
+<% }); -%>
