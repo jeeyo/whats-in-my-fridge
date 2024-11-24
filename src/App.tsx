@@ -18,43 +18,28 @@ import { CategorySelector } from '@/components/category-selector'
 import Categories from '@/constants/categories'
 import { Trash, CircleHelp } from 'lucide-react'
 
-// @ts-expect-error
-import { sqlite3Worker1Promiser } from '@sqlite.org/sqlite-wasm';
-
-const sqlite3 = await new Promise((resolve) => {
-  const _promiser = sqlite3Worker1Promiser({
-    onready: () => resolve(_promiser),
-  });
-});
-
-const configResponse = await sqlite3('config-get', {});
-console.log('Running SQLite3 version', configResponse.result.version.libVersion);
+import { fetchItems, insertItem, deleteItem } from '@/lib/database'
+import { DateTime } from 'luxon'
+import type Item from '@/types/item'
+import { PurgeDatabaseButton } from '@/components/purge-database-button'
 
 function App() {
   const [category, setCategory] = React.useState('beef')
   const [text, setText] = React.useState('')
   const [days, setDays] = React.useState(3)
 
-  const [test, setTest] = React.useState([
-    {
-      category: 'beef',
-      text: 'test',
-      expire_in: 2
-    },
-  ])
+  const [items, setItems] = React.useState<Item[]>([])
+
+  React.useEffect(() => {
+    fetchItems({ setItems })
+  }, [])
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     if (text.length === 0) return
 
-    setTest([
-      ...test,
-      {
-        category: category,
-        text: text,
-        expire_in: days,
-      }
-    ])
+    insertItem({ text, category, days })
+      .then(() => fetchItems({ setItems }))
 
     setDays(3)
     setText('')
@@ -69,6 +54,7 @@ function App() {
           </div>
 
           <div className="flex flex-1 items-center justify-end gap-2">
+            <PurgeDatabaseButton setItems={setItems} />
             <ModeToggle />
           </div>
         </div>
@@ -82,7 +68,7 @@ function App() {
               <CategorySelector category={category} onCategoryChanged={setCategory} />
             </div>
             <div className="grow">
-              <Input type="text" placeholder="stuff I'm putting to my fridge" onChange={(e) => setText(e.target.value)} value={text} />
+              <Input type="text" placeholder="stuff I'm putting into my fridge" onChange={(e) => setText(e.target.value)} value={text} />
             </div>
             <DaysSelector days={days} onDaysChanged={setDays} />
           </div>
@@ -94,7 +80,7 @@ function App() {
 
         <div className="px-2 lg:px-0 mt-6">
           <Table>
-            <TableCaption>A list of your recent invoices.</TableCaption>
+            <TableCaption>Check your refrigerator.</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Category</TableHead>
@@ -105,15 +91,22 @@ function App() {
             </TableHeader>
             <TableBody>
                 {
-                  test.map((t, i) => {
+                  items.map((t, i) => {
                     const CategoryComponent = Categories.find(cat => cat.name === t.category)?.component ?? CircleHelp
                     return (
                       <TableRow key={i}>
                         <TableCell className="font-medium"><CategoryComponent /></TableCell>
-                        <TableCell>{t.text}</TableCell>
-                        <TableCell>{t.expire_in} days</TableCell>
+                        <TableCell>{t.title}</TableCell>
+                        <TableCell>{Math.round(DateTime.fromSeconds(t.expiry_date).diffNow('days').days)} days</TableCell>
                         <TableCell>
-                          <Button variant="outline" className="w-[36px]">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => {
+                              deleteItem({ id: t.id })
+                              .then(() => fetchItems({ setItems }))
+                            }}
+                          >
                             <Trash />
                           </Button>
                         </TableCell>

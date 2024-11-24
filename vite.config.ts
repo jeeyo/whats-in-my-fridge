@@ -19,15 +19,24 @@ export default defineConfig({
         paths: {
           '/*': {
             'Cross-Origin-Opener-Policy': 'same-origin',
-            'Cross-Origin-Embedded-Policy': 'require-corp',
+            'Cross-Origin-Embedder-Policy': 'require-corp',
           },
         },
       },
     }]),
   ],
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
+  },
+  optimizeDeps: {
+    exclude: ['@sqlite.org/sqlite-wasm'],
   },
 })
