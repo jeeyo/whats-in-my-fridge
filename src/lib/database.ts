@@ -38,7 +38,6 @@ export const fetchItems = async ({ setItems }: { setItems: (items: Item[]) => vo
     sql: 'SELECT * FROM items ORDER BY expiry_date ASC',
     callback: (result: any) => {
       if (!result.row) return
-      console.log(result.row)
       items.push({ id: result.row[0], title: result.row[1], category: result.row[2], expiry_date: result.row[3] })
     },
   })
