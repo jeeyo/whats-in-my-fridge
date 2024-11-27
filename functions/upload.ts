@@ -23,6 +23,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     })
   }
 
+  // memorize date created in KV
   await context.env.SYNC_TOKEN.put(token, `${DateTime.now().toSeconds()}`);
 
   return new Response(
@@ -31,5 +32,6 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       headers: {
         'Content-Type': 'application/json',
       },
-    })
+    }
+  )
 }

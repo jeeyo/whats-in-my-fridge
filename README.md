@@ -7,9 +7,10 @@ A website that helps you keep track of what you have in your refrigerator and is
 ## Roadmap
 
 - [ ] Web Notification to notify when an item is about to expire
-- [ ] Database sync across devices using Cloudflare R2 + KV
+- [x] Database sync across devices using Cloudflare R2 + KV
   - [x] Upload
-  - [ ] Download
+  - [x] Download
+- [ ] Error toast
 
 ## Technical details
 

@@ -16,6 +16,7 @@ import { DaysSelector } from '@/components/days-selector'
 import { CategorySelector } from '@/components/category-selector'
 import { PurgeDatabaseButton } from '@/components/purge-database-button'
 import { UploadDatabaseButton } from '@/components/upload-database-button'
+import { DownloadDatabaseButton } from './components/download-database-button'
 
 import Categories from '@/constants/categories'
 import { Trash, CircleHelp } from 'lucide-react'
@@ -32,9 +33,10 @@ function App() {
   const [items, setItems] = React.useState<Item[]>([])
 
   const [uploading, setUploading] = React.useState(false)
+  const [downloading, setDownloading] = React.useState(false)
 
   React.useEffect(() => {
-    fetchItems({ setItems })
+    fetchItems(setItems)
   }, [])
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -42,7 +44,7 @@ function App() {
     if (text.length === 0) return
 
     insertItem({ text, category, days })
-      .then(() => fetchItems({ setItems }))
+      .then(() => fetchItems(setItems))
 
     setDays(3)
     setText('')
@@ -56,6 +58,11 @@ function App() {
           <div className="flex gap-2 mr-4">
             <PurgeDatabaseButton setItems={setItems} />
             <UploadDatabaseButton uploading={uploading} setUploading={setUploading} />
+            <DownloadDatabaseButton
+              downloading={downloading}
+              setDownloading={setDownloading}
+              onDownloaded={() => fetchItems(setItems)}
+            />
           </div>
 
           <div className="flex flex-1 items-center justify-end gap-2">
@@ -108,7 +115,7 @@ function App() {
                             size="icon"
                             onClick={() => {
                               deleteItem({ id: t.id })
-                              .then(() => fetchItems({ setItems }))
+                              .then(() => fetchItems(setItems))
                             }}
                           >
                             <Trash />

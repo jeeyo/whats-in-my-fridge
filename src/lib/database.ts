@@ -7,13 +7,9 @@ import type Item from '@/types/item'
 const DB_FILENAME = 'whats-in-my-fridge.sqlite3'
 
 export const getDatabaseFileHandle = async () => {
-  try {
-    const rootDirectory = await navigator.storage.getDirectory()
-    const fileHandle = await rootDirectory.getFileHandle(DB_FILENAME)
-    return fileHandle
-  } catch(e) {
-    return null
-  }
+  const rootDirectory = await navigator.storage.getDirectory()
+  const fileHandle = await rootDirectory.getFileHandle(DB_FILENAME, { create: true })
+  return fileHandle
 }
 
 const sqlite3 = new Promise((resolve) => {
@@ -22,7 +18,7 @@ const sqlite3 = new Promise((resolve) => {
   })
 })
 
-export const fetchItems = async ({ setItems }: { setItems: (items: Item[]) => void }) => {
+export const fetchItems = async (setItems: (items: Item[]) => void) => {
   const items: Item[] = []
   const sql = await sqlite3
 

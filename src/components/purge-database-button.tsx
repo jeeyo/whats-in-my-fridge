@@ -39,7 +39,7 @@ export const PurgeDatabaseButton: React.FC<PurgeDatabaseButtonProps> = ({ setIte
             className={buttonVariants({ variant: 'destructive' })}
             onClick={() => {
               purgeDatabase()
-              .then(() => fetchItems({ setItems }))
+                .then(() => fetchItems(setItems))
             }}
           >
             Purge

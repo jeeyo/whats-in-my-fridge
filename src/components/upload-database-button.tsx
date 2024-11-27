@@ -45,6 +45,7 @@ export const UploadDatabaseButton: React.FC<UploadDatabaseButtonProps> = ({ uplo
               return
             }
 
+            // TODO: multipart for big file?
             const result = await fetch('/upload', {
               method: 'POST',
               body: file,
@@ -52,10 +53,12 @@ export const UploadDatabaseButton: React.FC<UploadDatabaseButtonProps> = ({ uplo
 
             if (!result.ok) {
               // TODO: handle error
-            } else {
-              const response = (await result.json()) as { token: string }
-              setUploadToken(response.token)
+            setUploading(false)
+              return
             }
+
+            const response = (await result.json()) as { token: string }
+            setUploadToken(response.token)
 
             setUploading(false)
           }}
@@ -71,7 +74,7 @@ export const UploadDatabaseButton: React.FC<UploadDatabaseButtonProps> = ({ uplo
               <li>Open your destination's browser</li>
               <li>Click download button</li>
               <li>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   Fill the OTP below
                   <InputOTP maxLength={5} value={uploadToken} disabled={true}>
                     <InputOTPGroup>
@@ -93,7 +96,9 @@ export const UploadDatabaseButton: React.FC<UploadDatabaseButtonProps> = ({ uplo
               // TODO: handle cancel on remote
               setUploadToken('')
             }}
-          >Cancel</AlertDialogCancel>
+          >
+            Cancel
+          </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
