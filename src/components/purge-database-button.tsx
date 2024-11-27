@@ -25,7 +25,7 @@ export const PurgeDatabaseButton: React.FC<PurgeDatabaseButtonProps> = ({ setIte
         <Button variant="destructive" size="icon">
           <DatabaseZap />
         </Button>
-        </AlertDialogTrigger>
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>

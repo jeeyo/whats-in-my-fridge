@@ -6,6 +6,16 @@ import type Item from '@/types/item'
 
 const DB_FILENAME = 'whats-in-my-fridge.sqlite3'
 
+export const getDatabaseFileHandle = async () => {
+  try {
+    const rootDirectory = await navigator.storage.getDirectory()
+    const fileHandle = await rootDirectory.getFileHandle(DB_FILENAME)
+    return fileHandle
+  } catch(e) {
+    return null
+  }
+}
+
 const sqlite3 = new Promise((resolve) => {
   const _promiser = sqlite3Worker1Promiser({
     onready: () => resolve(_promiser),

@@ -1,6 +1,5 @@
 import React from 'react'
-import { ThemeProvider } from './components/theme-provider'
-import { ModeToggle } from './components/mode-toggle'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -12,8 +11,11 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
+import { ModeToggle } from '@/components/mode-toggle'
 import { DaysSelector } from '@/components/days-selector'
 import { CategorySelector } from '@/components/category-selector'
+import { PurgeDatabaseButton } from '@/components/purge-database-button'
+import { UploadDatabaseButton } from '@/components/upload-database-button'
 
 import Categories from '@/constants/categories'
 import { Trash, CircleHelp } from 'lucide-react'
@@ -21,7 +23,6 @@ import { Trash, CircleHelp } from 'lucide-react'
 import { fetchItems, insertItem, deleteItem } from '@/lib/database'
 import { DateTime } from 'luxon'
 import type Item from '@/types/item'
-import { PurgeDatabaseButton } from '@/components/purge-database-button'
 
 function App() {
   const [category, setCategory] = React.useState('beef')
@@ -29,6 +30,8 @@ function App() {
   const [days, setDays] = React.useState(3)
 
   const [items, setItems] = React.useState<Item[]>([])
+
+  const [uploading, setUploading] = React.useState(false)
 
   React.useEffect(() => {
     fetchItems({ setItems })
@@ -50,11 +53,12 @@ function App() {
     <ThemeProvider defaultTheme="light" storageKey="wmf-ui-theme">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border">
         <div className="flex h-14 items-center px-4">
-          <div className="mr-4 hidden md:flex">
+          <div className="flex gap-2 mr-4">
+            <PurgeDatabaseButton setItems={setItems} />
+            <UploadDatabaseButton uploading={uploading} setUploading={setUploading} />
           </div>
 
           <div className="flex flex-1 items-center justify-end gap-2">
-            <PurgeDatabaseButton setItems={setItems} />
             <ModeToggle />
           </div>
         </div>
