@@ -1,6 +1,7 @@
 # What's in my fridge?
 
 A website that helps you keep track of what you have in your refrigerator and is it about to expire?
+Your data will store locally in your browser, but you will be able to share it.
 
 [Demo](https://whats-in-my-fridge.pages.dev/)
 
@@ -15,7 +16,7 @@ A website that helps you keep track of what you have in your refrigerator and is
 
 ## Technical details
 
-The database is an SQLite database stored in your browser's [OPFS](https://developer.mozilla.org/en-US/docs/Web/API/File_System_API/Origin_private_file_system) powered by [WASM SQLite](https://github.com/sqlite/sqlite-wasm)
+The database is an SQLite database stored in the browser's [OPFS](https://developer.mozilla.org/en-US/docs/Web/API/File_System_API/Origin_private_file_system) powered by [WASM SQLite](https://github.com/sqlite/sqlite-wasm)
 
 ## Running on Local
 
@@ -29,7 +30,6 @@ $ npm run dev
 $ npm run build
 $ npm wrangler pages dev
 ```
-
 
 ## Making it yours
 
