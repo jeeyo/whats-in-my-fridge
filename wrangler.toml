@@ -12,10 +12,10 @@ local_protocol = "https"
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
 [[kv_namespaces]]
 binding = "SYNC_TOKEN"
-id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+id = "df7eefa49b86403e849c3ad270620e9f"
 
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#r2-buckets
 [[r2_buckets]]
 binding = "SYNC_BUCKET"
-bucket_name = "my-bucket"
+bucket_name = "whats-in-my-fridge-sync"

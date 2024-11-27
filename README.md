@@ -11,6 +11,7 @@ A website that helps you keep track of what you have in your refrigerator and is
   - [x] Upload
   - [x] Download
 - [ ] Error toast
+- [ ] Loading indicator
 
 ## Technical details
 
@@ -28,3 +29,8 @@ $ npm run dev
 $ npm run build
 $ npm wrangler pages dev
 ```
+
+
+## Making it yours
+
+Make sure to update `[[kv_namespaces]].id` and `[[r2_buckets]].bucket_name` in wrangler.toml to your Cloudflare KV namespace ID and Cloudflare R2 bucket name respectively.
