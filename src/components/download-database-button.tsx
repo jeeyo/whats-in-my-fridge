@@ -42,7 +42,12 @@ export const DownloadDatabaseButton: React.FC<DownloadDatabaseButtonProps> = ({ 
             <div className="flex flex-col items-center gap-2">
               <div>Fill the OTP</div>
               <div>
-                <InputOTP maxLength={5} value={downloadToken} onChange={(token) => setDownloadToken(token)}>
+                <InputOTP
+                  maxLength={5}
+                  value={downloadToken}
+                  inputMode="text"
+                  onChange={(token) => setDownloadToken(token)}
+                >
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
