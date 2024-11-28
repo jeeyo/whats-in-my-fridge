@@ -78,10 +78,10 @@ function App() {
             <div>
               <CategorySelector category={category} onCategoryChanged={setCategory} />
             </div>
+            <DaysSelector days={days} onDaysChanged={setDays} />
             <div className="grow">
               <Input type="text" placeholder="stuff I'm putting into my fridge" onChange={(e) => setText(e.target.value)} value={text} />
             </div>
-            <DaysSelector days={days} onDaysChanged={setDays} />
           </div>
         </form>
 
