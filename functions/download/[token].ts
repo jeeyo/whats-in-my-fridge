@@ -7,7 +7,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const token = Array.isArray(context.params.token) ? context.params.token[0] : context.params.token
 
   const kv = await context.env.SYNC_TOKEN.get(token);
-  if (kv !== null) {
+  if (kv === null) {
     return new Response(null, {
       status: 404,
     })
