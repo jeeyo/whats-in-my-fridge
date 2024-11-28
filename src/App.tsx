@@ -74,14 +74,12 @@ function App() {
       <div className="container py-6 mx-auto w-full min-w-0 max-w-3xl">
 
         <form onSubmit={handleSubmit}>
-          <div className="flex justify-between gap-2 flex-wrap px-2 lg:px-0">
+          <div className="flex gap-2 flex-wrap px-2 lg:px-0">
             <div>
               <CategorySelector category={category} onCategoryChanged={setCategory} />
             </div>
             <DaysSelector days={days} onDaysChanged={setDays} />
-            <div className="grow">
-              <Input type="text" placeholder="stuff I'm putting into my fridge" onChange={(e) => setText(e.target.value)} value={text} />
-            </div>
+            <Input type="text" placeholder="stuff I'm putting into my fridge" onChange={(e) => setText(e.target.value)} value={text} />
           </div>
         </form>
 

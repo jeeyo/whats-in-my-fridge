@@ -24,13 +24,13 @@ export const DaysSelector: React.FC<DaysSelectorProps> = ({ days, onDaysChanged 
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full sm:w-[160px] justify-between"
+          className="justify-between"
         >
           {`${days} days`}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full sm:w-[160px] p-0">
+      <PopoverContent className="w-[160px] p-0">
         <div className="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
 
           <div className="flex items-center border-b px-3">
