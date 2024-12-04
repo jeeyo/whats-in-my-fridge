@@ -11,6 +11,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
+import { Toaster } from '@/components/ui/toaster'
 import { ModeToggle } from '@/components/mode-toggle'
 import { DaysSelector } from '@/components/days-selector'
 import { CategorySelector } from '@/components/category-selector'
@@ -19,13 +20,16 @@ import { UploadDatabaseButton } from '@/components/upload-database-button'
 import { DownloadDatabaseButton } from './components/download-database-button'
 
 import Categories from '@/constants/categories'
-import { Trash, CircleHelp } from 'lucide-react'
+import { Trash, CircleHelp, BellDot } from 'lucide-react'
 
 import { fetchItems, insertItem, deleteItem } from '@/lib/database'
 import { DateTime } from 'luxon'
 import type Item from '@/types/item'
+import { useToast } from '@/hooks/use-toast'
 
 function App() {
+  const { toast } = useToast()
+
   const [category, setCategory] = React.useState('beef')
   const [text, setText] = React.useState('')
   const [days, setDays] = React.useState(3)
@@ -35,9 +39,30 @@ function App() {
   const [uploading, setUploading] = React.useState(false)
   const [downloading, setDownloading] = React.useState(false)
 
+  const [notificationEnabled, setNotificationEnabled] = React.useState(false)
+
   React.useEffect(() => {
     fetchItems(setItems)
+    setNotificationEnabled(Notification.permission === 'granted')
   }, [])
+
+  const requestNotificationPermission = async () => {
+    const result = await Notification.requestPermission()
+    setNotificationEnabled(Notification.permission === 'granted')
+
+    const title = result !== 'granted'
+      ? 'You have denied notification permission.'
+      : 'You have granted notification permission.'
+    const description = result !== 'granted'
+      ? 'This will disable expiry date notification feature.'
+      : 'The website will notify you when an item is reaching its expiry date.'
+
+    toast({ title, description })
+  }
+
+  const enableNotification: React.MouseEventHandler<HTMLButtonElement> = async () => {
+    await requestNotificationPermission()
+  }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -66,6 +91,14 @@ function App() {
           </div>
 
           <div className="flex flex-1 items-center justify-end gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={enableNotification}
+              className={notificationEnabled ? 'bg-success text-success-foreground' : ''}
+            >
+              <BellDot />
+            </Button>
             <ModeToggle />
           </div>
         </div>
@@ -127,6 +160,7 @@ function App() {
           </Table>
         </div>
       </div>
+      <Toaster />
     </ThemeProvider>
   )
 }
