@@ -43,25 +43,28 @@ function App() {
 
   React.useEffect(() => {
     fetchItems(setItems)
-    setNotificationEnabled(Notification.permission === 'granted')
+    // setNotificationEnabled(Notification.permission === 'granted')
   }, [])
 
-  const requestNotificationPermission = async () => {
-    const result = await Notification.requestPermission()
-    setNotificationEnabled(Notification.permission === 'granted')
+  // const requestNotificationPermission = async () => {
+  //   const result = await Notification.requestPermission()
+  //   setNotificationEnabled(Notification.permission === 'granted')
 
-    const title = result !== 'granted'
-      ? 'You have denied notification permission.'
-      : 'You have granted notification permission.'
-    const description = result !== 'granted'
-      ? 'This will disable expiry date notification feature.'
-      : 'The website will notify you when an item is reaching its expiry date.'
+  //   const title = result !== 'granted'
+  //     ? 'You have denied notification permission.'
+  //     : 'You have granted notification permission.'
+  //   const description = result !== 'granted'
+  //     ? 'This will disable expiry date notification feature.'
+  //     : 'The website will notify you when an item is reaching its expiry date.'
 
-    toast({ title, description })
-  }
+  //   toast({ title, description })
+  // }
 
   const enableNotification: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    await requestNotificationPermission()
+    // await requestNotificationPermission()
+    toast({
+      title: 'Notification is not supported',
+    })
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
