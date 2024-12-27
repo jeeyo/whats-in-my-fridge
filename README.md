@@ -13,6 +13,7 @@ Your data will store locally in your browser, but you will be able to share it.
   - [x] Download
 - [ ] Error toast
 - [ ] Loading indicator
+- [ ] FileSystemWritableFileStream isn't supported on Safari
 
 ## Technical details
 
